@@ -7,6 +7,7 @@ format:
         embed-resources: true
 jupyter: python3
 ---
+**Reseach Question:** How did anxiety and depression levels differ between states following the outbreak of COVID-19 in the United States?
 
 # Data Cleaning
 
@@ -20,10 +21,25 @@ import seaborn as sns
 df = pd.read_csv("./Datasets/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv")
 
 df.head()
+```
+
+Filter to only state data and drop unnecessary columns;Group and Subgroup are redundant, Time period and CI are just combinations of other column's data.
+```{python}
+state_data = df[df['Group']=='By State']
+
+
+state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval'], inplace = True)
+```
+
+Seperate Quartile Range into 2 Columns:
+```{python}
 
 ```
 
-Filter to only state data
+Change Data Types as needed
 ```{python}
-state_data = df[df['Group']=='By State']
+state_data['Indicator'] = pd.Categorical(state_data['Indicator'], categories = ['Symptoms of Depressive Disorder', 'Symptoms of Anxiety Disorder', 'Symptoms of Anxiety Disorder or Depressive Disorder'])
+
+state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date'])
+state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date'])
 ```
