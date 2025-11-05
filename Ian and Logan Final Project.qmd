@@ -27,3 +27,34 @@ Filter to only state data
 ```{python}
 state_data = df[df['Group']=='By State']
 ```
+
+
+```{python}
+# Histogram of values for all states
+plt1 = sns.histplot(state_data, x='Value')
+plt.show()
+```
+
+```{python}
+# Pair Plot
+pair_plot = sns.pairplot(state_data)
+plt.show()
+```
+
+
+```{python}
+oregon = state_data[state_data['State']=='Oregon']
+oregon_depression = oregon[oregon['Indicator']=='Symptoms of Depressive Disorder']
+
+O_dprs_ovr_tm = sns.lineplot(oregon_depression, x='Time Period End Date', y='Value')
+plt.show()
+```
+
+
+```{python}
+Wisconsin = state_data[state_data['State']=='Wisconsin']
+Wisconsin_depression = Wisconsin[Wisconsin['Indicator']=='Symptoms of Depressive Disorder']
+
+W_dprs_ovr_tm = sns.lineplot(Wisconsin_depression, x='Time Period End Date', y='Value')
+plt.show()
+```
