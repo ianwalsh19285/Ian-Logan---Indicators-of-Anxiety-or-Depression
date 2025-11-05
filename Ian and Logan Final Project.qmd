@@ -26,5 +26,8 @@ df.head()
 # Adding a note for Logan
 
 state_data = df[df['Group']=='By State']
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 ```
