@@ -28,27 +28,6 @@ Filter to only state data and drop unnecessary columns;Group and Subgroup are re
 state_data = df[df['Group']=='By State']
 ```
 
-
-```{python}
-oregon = state_data[state_data['State']=='Oregon']
-oregon_depression = oregon[oregon['Indicator']=='Symptoms of Depressive Disorder']
-
-O_dprs_ovr_tm = sns.lineplot(oregon_depression, x='Time Period End Date', y='Value')
-plt.show()
-```
-
-
-```{python}
-Wisconsin = state_data[state_data['State']=='Wisconsin']
-Wisconsin_depression = Wisconsin[Wisconsin['Indicator']=='Symptoms of Depressive Disorder']
-
-W_dprs_ovr_tm = sns.lineplot(Wisconsin_depression, x='Time Period End Date', y='Value')
-plt.show()
-
-
-state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval'], inplace = True)
-```
-
 Seperate Quartile Range into 2 Columns:
 ```{python}
 
@@ -75,4 +54,23 @@ plt.show()
 # Pair Plot
 pair_plot = sns.pairplot(state_data)
 plt.show()
+```
+
+```{python}
+oregon = state_data[state_data['State']=='Oregon']
+oregon_depression = oregon[oregon['Indicator']=='Symptoms of Depressive Disorder']
+
+O_dprs_ovr_tm = sns.lineplot(oregon_depression, x='Time Period End Date', y='Value')
+plt.show()
+```
+
+```{python}
+Wisconsin = state_data[state_data['State']=='Wisconsin']
+Wisconsin_depression = Wisconsin[Wisconsin['Indicator']=='Symptoms of Depressive Disorder']
+
+W_dprs_ovr_tm = sns.lineplot(Wisconsin_depression, x='Time Period End Date', y='Value')
+plt.show()
+
+
+state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval'], inplace = True)
 ```
