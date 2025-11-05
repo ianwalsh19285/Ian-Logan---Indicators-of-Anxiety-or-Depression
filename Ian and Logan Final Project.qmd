@@ -70,7 +70,4 @@ Wisconsin_depression = Wisconsin[Wisconsin['Indicator']=='Symptoms of Depressive
 
 W_dprs_ovr_tm = sns.lineplot(Wisconsin_depression, x='Time Period End Date', y='Value')
 plt.show()
-
-
-state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval'], inplace = True)
 ```
