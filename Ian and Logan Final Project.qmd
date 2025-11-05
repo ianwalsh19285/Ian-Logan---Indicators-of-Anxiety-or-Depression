@@ -26,6 +26,8 @@ df.head()
 Filter to only state data and drop unnecessary columns;Group and Subgroup are redundant, Time period and CI are just combinations of other column's data.
 ```{python}
 state_data = df[df['Group']=='By State']
+
+state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval'], inplace = True)
 ```
 
 Seperate Quartile Range into 2 Columns:
@@ -33,9 +35,19 @@ Seperate Quartile Range into 2 Columns:
 
 ```
 
+Clean up the Phase column:
+```{python}
+state_data['Phase'].unique()
+# There are 2 values that contain dates which are already stored in other columns, so we can remove these dates
+
+state_data['Phase'] = state_data['Phase'].str.split(' ', expand = True).get(0)
+```
+
 Change Data Types as needed
 ```{python}
 state_data['Indicator'] = pd.Categorical(state_data['Indicator'], categories = ['Symptoms of Depressive Disorder', 'Symptoms of Anxiety Disorder', 'Symptoms of Anxiety Disorder or Depressive Disorder'])
+
+state_data['Phase'] = pd.Categorical(state_data['Phase'], categories=['1', '2', '3', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10'])
 
 state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date'])
 state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date'])
