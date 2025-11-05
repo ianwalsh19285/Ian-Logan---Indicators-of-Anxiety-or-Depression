@@ -21,5 +21,9 @@ df = pd.read_csv("./Datasets/Indicators_of_Anxiety_or_Depression_Based_on_Report
 
 df.head()
 
-# Adding a note for Logan
+```
+
+Filter to only state data
+```{python}
+state_data = df[df['Group']=='By State']
 ```
