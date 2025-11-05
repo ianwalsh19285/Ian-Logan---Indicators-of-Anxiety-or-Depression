@@ -30,19 +30,6 @@ state_data = df[df['Group']=='By State']
 
 
 ```{python}
-# Histogram of values for all states
-plt1 = sns.histplot(state_data, x='Value')
-plt.show()
-```
-
-```{python}
-# Pair Plot
-pair_plot = sns.pairplot(state_data)
-plt.show()
-```
-
-
-```{python}
 oregon = state_data[state_data['State']=='Oregon']
 oregon_depression = oregon[oregon['Indicator']=='Symptoms of Depressive Disorder']
 
@@ -73,4 +60,19 @@ state_data['Indicator'] = pd.Categorical(state_data['Indicator'], categories = [
 
 state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date'])
 state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date'])
+```
+
+# EDA 
+
+Looking at some graphs
+```{python}
+# Histogram of values for all states
+plt1 = sns.histplot(state_data, x='Value')
+plt.show()
+```
+
+```{python}
+# Pair Plot
+pair_plot = sns.pairplot(state_data)
+plt.show()
 ```
