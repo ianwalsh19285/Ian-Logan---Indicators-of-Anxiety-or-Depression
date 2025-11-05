@@ -30,6 +30,8 @@ state_data = df[df['Group']=='By State']
 
 Seperate Quartile Range into 2 Columns:
 ```{python}
+state_data[['Quartile_Lower', 'Quartile_Upper']] = state_data['Quartile Range'].str.split(' - ', expand=True)
+state_data.drop(columns='Quartile Range')
 
 ```
 
