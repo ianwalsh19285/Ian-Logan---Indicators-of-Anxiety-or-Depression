@@ -20,14 +20,10 @@ import seaborn as sns
 df = pd.read_csv("./Datasets/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv")
 
 df.head()
-<<<<<<< Updated upstream
-=======
 
-# Adding a note for Logan
+```
 
+Filter to only state data
+```{python}
 state_data = df[df['Group']=='By State']
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 ```
