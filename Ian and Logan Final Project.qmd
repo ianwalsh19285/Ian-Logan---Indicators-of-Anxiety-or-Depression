@@ -176,3 +176,11 @@ for i,j in zip(indicators,color_scales):
     )
     fig.show()
 ```
+
+
+# Linear Modeling
+
+
+```{python}
+
+```
