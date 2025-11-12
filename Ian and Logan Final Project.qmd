@@ -7,7 +7,7 @@ format:
         embed-resources: true
 jupyter: python3
 ---
-**Reseach Question:** How did anxiety and depression levels differ between states following the outbreak of COVID-19 in the United States?
+**Reseach Question:** How did anxiety and depression levels differ between states and regions following the outbreak of COVID-19 in the United States?
 
 # Data Cleaning
 
@@ -27,22 +27,18 @@ df = pd.read_csv("./Datasets/Indicators_of_Anxiety_or_Depression_Based_on_Report
 df.head()
 ```
 
-Rename the "Value" column to "Percent" to more accurately portray what the data is measuring
-```{python}
-df.rename(columns={"Value": "Percent of Population"}, inplace = True)
-```
 
 Filter to only state data and drop unnecessary columns;Group and Subgroup are redundant, Time period and CI are just combinations of other column's data.
 ```{python}
 state_data = df[df['Group']=='By State']
 
-state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval'], inplace = True)
+state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval', 'Low CI', 'High CI'], inplace = True)
 ```
 
 Seperate Quartile Range into 2 Columns:
 ```{python}
 state_data[['Quartile_Lower', 'Quartile_Upper']] = state_data['Quartile Range'].str.split(' - ', expand=True)
-state_data.drop(columns='Quartile Range')
+state_data.drop(columns='Quartile Range', inplace = True)
 ```
 
 Clean up the Phase column:
@@ -51,6 +47,68 @@ state_data['Phase'].unique()
 # There are 2 values that contain dates which are already stored in other columns, so we can remove these dates
 
 state_data['Phase'] = state_data['Phase'].str.split(' ', expand = True).get(0)
+```
+
+Add a column for Region of the united states based on the US census ([Census Regions and Divisions of the United States](https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf))
+```{python}
+state_to_region = {
+     # Northeast
+    'Connecticut':'Northeast', 
+    'Maine': 'Northeast', 'Massachusetts':'Northeast',
+    'New Hampshire': 'Northeast', 
+    'Rhode Island': 'Northeast', 
+    'Vermont': 'Northeast',
+    'New Jersey': 'Northeast', 
+    'New York': 'Northeast', 
+    'Pennsylvania': 'Northeast',
+    # Midwest
+    'Illinois': 'Midwest', 
+    'Indiana': 'Midwest', 
+    'Michigan': 'Midwest', 
+    'Ohio': 'Midwest',
+    'Wisconsin': 'Midwest', 
+    'Iowa': 'Midwest', 
+    'Kansas': 'Midwest', 
+    'Minnesota': 'Midwest',
+    'Missouri': 'Midwest', 
+    'Nebraska': 'Midwest', 
+    'North Dakota': 'Midwest', 
+    'South Dakota': 'Midwest',
+    # South
+    'Delaware': 'South', 
+    'Florida': 'South', 
+    'Georgia': 'South', 
+    'Maryland': 'South',
+    'North Carolina': 'South', 
+    'South Carolina': 'South', 
+    'Virginia': 'South', 
+    'District of Columbia': 'South',
+    'West Virginia': 'South', 
+    'Alabama': 'South', 
+    'Kentucky': 'South', 
+    'Mississippi': 'South',
+    'Tennessee': 'South', 
+    'Arkansas': 'South', 
+    'Louisiana': 'South', 
+    'Oklahoma': 'South', 
+    'Texas': 'South',
+    # West
+    'Arizona': 'West', 
+    'Colorado': 'West', 
+    'Idaho': 'West', 
+    'Montana': 'West',
+    'Nevada': 'West', 
+    'New Mexico': 'West', 
+    'Utah': 'West', 
+    'Wyoming': 'West',
+    'Alaska': 'West', 
+    'California': 'West', 
+    'Hawaii': 'West', 
+    'Oregon': 'West', 
+    'Washington': 'West'
+}
+
+state_data['Region'] = state_data['State'].map(state_to_region)
 ```
 
 Change Data Types as needed
@@ -62,6 +120,15 @@ state_data['Phase'] = pd.Categorical(state_data['Phase'], categories=['1', '2', 
 state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date']).dt.date
 state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date']).dt.date
 ```
+
+Pivot so that the Indicator column and it's respective values are actually seperate columns for more effective data analysis
+
+```{python}
+state_data = pd.pivot(state_data, index = ['State','Phase','Time Period','Time Period Start Date', 'Time Period End Date', 'Region'], columns = 'Indicator', values = 'Value').reset_index()
+
+state_data.rename(columns={"Symptoms of Depressive Disorder": "Perc of Pop with Symptoms of Depression", "Symptoms of Anxiety Disorder": "Perc of Pop with Symptoms of Anxiety", "Symptoms of Anxiety Disorder or Depressive Disorder": "Perc of Pop with Symptoms of Either"}, inplace = True)
+```
+
 
 # EDA 
 
