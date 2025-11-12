@@ -18,6 +18,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+import warnings
+
+warnings.simplefilter(action='ignore', category=pd.errors.SettingWithCopyWarning)
 
 df = pd.read_csv("./Datasets/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv")
 
@@ -73,7 +76,7 @@ plt.show()
 ```
 
 ```{python}
-national_avgs = state_data.groupby(['Time Period Start Date', 'Indicator']).agg(
+national_avgs = state_data.groupby(['Time Period Start Date', 'Indicator'], observed=False).agg(
     nat_means = ('Value', 'mean')
 )
 nat_avg_plt = sns.lineplot(national_avgs,
