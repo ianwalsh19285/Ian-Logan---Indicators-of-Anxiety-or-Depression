@@ -73,18 +73,17 @@ plt.show()
 ```
 
 ```{python}
-indicators = state_data['Indicator'].unique()
-for i in indicators :
-    Avgs = state_data[state_data['Indicator'] == i]
-    National_Avgs = Avgs.groupby('Time Period Start Date').agg(
-        nat_means = ('Value', 'mean')
-    )
-    Nat_Avg_Plt = sns.lineplot(National_Avgs,
-                                x='Time Period Start Date',
-                                y='nat_means',
-                                )
-    plt.xticks(rotation=45)
-    plt.show()
+national_avgs = state_data.groupby(['Time Period Start Date', 'Indicator']).agg(
+    nat_means = ('Value', 'mean')
+)
+nat_avg_plt = sns.lineplot(national_avgs,
+                            x='Time Period Start Date',
+                            y='nat_means',
+                            hue = 'Indicator')
+plt.xticks(rotation=45)
+plt.title(f"Values Over Time")
+plt.ylabel('Values')
+plt.show()
 
 ```
 
@@ -149,6 +148,7 @@ state_code_map = {
     "Virgin Islands, U.S.": "VI",
 }
 
+indicators = state_data['Indicator'].unique()
 color_scales = ['blues','amp','purp']
 
 for i,j in zip(indicators,color_scales):
