@@ -32,18 +32,11 @@ df = pd.read_csv("./Datasets/Indicators_of_Anxiety_or_Depression_Based_on_Report
 df.head()
 ```
 
-
 Filter to only state data and drop unnecessary columns;Group and Subgroup are redundant, Time period and CI are just combinations of other column's data.
 ```{python}
 state_data = df[df['Group']=='By State']
 
-state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval', 'Low CI', 'High CI'], inplace = True)
-```
-
-Seperate Quartile Range into 2 Columns:
-```{python}
-state_data[['Quartile_Lower', 'Quartile_Upper']] = state_data['Quartile Range'].str.split(' - ', expand=True)
-state_data.drop(columns='Quartile Range', inplace = True)
+state_data.drop(columns = ['Group', 'Subgroup', 'Time Period Label', 'Confidence Interval', 'Quartile Range', 'Low CI', 'High CI'], inplace = True)
 ```
 
 Clean up the Phase column:
@@ -126,31 +119,52 @@ state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period St
 state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date']).dt.date
 ```
 
-Pivot so that the Indicator column and it's respective values are actually seperate columns for more effective data analysis
-
+In a new DataFrame, pivot so that the Indicator column and it's respective values are actually seperate columns to make some of the data analysis easier:
 ```{python}
-state_data = pd.pivot(state_data, index = ['State','Phase','Time Period','Time Period Start Date', 'Time Period End Date', 'Region'], columns = 'Indicator', values = 'Value').reset_index()
+state_data_wide = pd.pivot(state_data, index = ['State','Phase','Time Period','Time Period Start Date', 'Time Period End Date', 'Region'], columns = 'Indicator', values = 'Value').reset_index()
 
-state_data.rename(columns={"Symptoms of Depressive Disorder": "Perc of Pop with Symptoms of Depression", "Symptoms of Anxiety Disorder": "Perc of Pop with Symptoms of Anxiety", "Symptoms of Anxiety Disorder or Depressive Disorder": "Perc of Pop with Symptoms of Either"}, inplace = True)
+state_data_wide.rename(columns={"Symptoms of Depressive Disorder": "Perc of Pop with Symptoms of Depression", "Symptoms of Anxiety Disorder": "Perc of Pop with Symptoms of Anxiety", "Symptoms of Anxiety Disorder or Depressive Disorder": "Perc of Pop with Symptoms of Either"}, inplace = True)
+
+# Rename Value column in original DataFrame as well for consistency
+state_data.rename(columns={"Value": "Percent of Population"}, inplace = True)
 ```
 
 
 # EDA 
 
-Looking at some graphs
-```{python}
-# Histogram of values for all states
-plt1 = sns.histplot(state_data, x='Percent of Population', hue = 'Indicator', alpha = 0.5)
-plt.title('Histogram of Percent of Population by Indicator')
-plt.show()
-```
-
+## Pairplot
+First, let's do a pairplot of the wide dataset (to get an idea of how depression and anxiety rates are correlated with each other and time)
 ```{python}
 # Pair Plot
-pair_plot = sns.pairplot(state_data, hue = 'Indicator')
+pair_plot = sns.pairplot(state_data_wide, hue = 'Region', plot_kws={'alpha': 0.4})
 plt.show()
 ```
 
+**Observations:** The percent of the population with symptoms of Anxiety, Depression, and the indicator for Either all appear to be highly linearly correlated with each other. Additionally, they all change over time similarly, all starting fairly high and then getting lower over time. This appears consistent among all regions, however the midwest tends to have notably lower rates of symptoms for anxiety, depression, and both.
+
+## Histogram
+Now we can do a histogram and look at measures of center
+```{python}
+# Histogram of values for all states
+g = sns.histplot(state_data, x='Percent of Population', hue = 'Indicator', alpha = 0.5)
+plt.title('Histogram of Percent of Population by Anxiety/Depression')
+plt.show()
+
+measures = state_data.groupby('Indicator', observed = False)['Percent of Population'].agg(['mean','median'])
+
+indicators = state_data['Indicator'].unique()
+
+for i in indicators:
+    mean = measures.loc[i, 'mean']
+    median = measures.loc[i, 'median']
+    print(f"For {i}:\nMean = {mean}\nMedian = {median}\n")
+```
+
+**Observations:** The percent of the population with symptoms of Anxiety, Depression, and the indicator for Either appear to all be normally distributed. As expected, the percent of the population with symptoms of either is the highest on average. However, the median and mean percent of the population with symptoms of anxiety is higher than that with depression
+
+## Line Graph
+
+We can use a line graph to look at how these change over time
 ```{python}
 national_avgs = state_data.groupby(['Time Period Start Date', 'Indicator'], observed=False).agg(
     nat_means = ('Percent of Population', 'mean')
@@ -163,8 +177,8 @@ plt.xticks(rotation=45)
 plt.title(f"Percent of Population Over Time")
 plt.ylabel('Percent of Population')
 plt.show()
-
 ```
+
 
 ```{python}
 state_code_map = {
@@ -227,7 +241,6 @@ state_code_map = {
     "Virgin Islands, U.S.": "VI",
 }
 
-indicators = state_data['Indicator'].unique()
 color_scales = ['blues','amp','purp']
 
 for i,j in zip(indicators,color_scales):
