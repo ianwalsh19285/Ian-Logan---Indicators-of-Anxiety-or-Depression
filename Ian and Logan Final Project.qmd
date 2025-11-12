@@ -88,6 +88,22 @@ plt.show()
 ```
 
 ```{python}
+indicators = state_data['Indicator'].unique()
+for i in indicators :
+    Avgs = state_data[state_data['Indicator'] == i]
+    National_Avgs = Avgs.groupby('Time Period Start Date').agg(
+        nat_means = ('Value', 'mean')
+    )
+    Nat_Avg_Plt = sns.lineplot(National_Avgs,
+                                x='Time Period Start Date',
+                                y='nat_means',
+                                )
+    plt.xticks(rotation=45)
+    plt.show()
+
+```
+
+```{python}
 state_code_map = {
     "Alabama": "AL",
     "Alaska": "AK",
