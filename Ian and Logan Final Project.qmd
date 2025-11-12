@@ -140,13 +140,13 @@ pair_plot = sns.pairplot(state_data_wide, hue = 'Region', plot_kws={'alpha': 0.4
 plt.show()
 ```
 
-**Observations:** The percent of the population with symptoms of Anxiety, Depression, and the indicator for Either all appear to be highly linearly correlated with each other. Additionally, they all change over time similarly, all starting fairly high and then getting lower over time. This appears consistent among all regions, however the midwest tends to have notably lower rates of symptoms for anxiety, depression, and both.
+**Observations:** The percent of the population with symptoms of anxiety, depression,and either all appear to be highly linearly correlated with each other. Additionally, they all change over time similarly, all starting fairly high and then getting lower over time. This appears consistent among all regions, however the midwest tends to have notably lower rates of symptoms for anxiety, depression, and both.
 
 ## Histogram
 Now we can do a histogram and look at measures of center
 ```{python}
 # Histogram of values for all states
-g = sns.histplot(state_data, x='Percent of Population', hue = 'Indicator', alpha = 0.5)
+sns.histplot(state_data, x='Percent of Population', hue = 'Indicator', alpha = 0.5)
 plt.title('Histogram of Percent of Population by Anxiety/Depression')
 plt.show()
 
@@ -160,7 +160,16 @@ for i in indicators:
     print(f"For {i}:\nMean = {mean}\nMedian = {median}\n")
 ```
 
-**Observations:** The percent of the population with symptoms of Anxiety, Depression, and the indicator for Either appear to all be normally distributed. As expected, the percent of the population with symptoms of either is the highest on average. However, the median and mean percent of the population with symptoms of anxiety is higher than that with depression
+**Observations:** The percent of the population with symptoms of anxiety, depression, and either appear to all be normally distributed. As expected, the percent of the population with symptoms of either is the highest on average. However, the median and mean percent of the population with symptoms of anxiety is higher than that with depression
+
+##  Bar Graph
+We can use a bar graph to see if the regions have significantly different rates of symptoms of anxiety and depression
+```{python}
+sns.barplot(state_data, x = 'Region', y = 'Percent of Population', hue = 'Indicator')
+plt.show()
+```
+
+**Observations:** Rates of symptoms of depression, anxiety, or either appear to be highest in the South, and are closely followed by the West. The lowest rates of symtoms of anxiety and either anxiety or depression are in the Midwest; however, the Northeast and Midwest are fairly close as the lowest rates of symptoms of depression.
 
 ## Line Graph
 
@@ -179,7 +188,11 @@ plt.ylabel('Percent of Population')
 plt.show()
 ```
 
+**Observations:** It looks like following the outbreak of COVID-19, rates of symptoms of anxiety and depression sharply rose, followed by a dip towards the end of 2020 and another sharp rise towards the beginning of 2021 (which notably is around the time of the 2020 federal election). After that rise, rates once again fell and reached a somewhat stable level around mid-2021. They stayed at this level until around the end of 2022 where there was a slight increase, and then decrease back to that stable level. Finally, the rates appeared to dip towards the end of 2023 and then again rise back up to the stable level. These trends appear consistent among depression symtoms, anxiety symptoms, and both. Overall, this line graph helps us visualize that the rates are not completely linear, but appear to fluctuate over time.
 
+## Map
+
+We can graph the data over a map of the US to see regional trends over time 
 ```{python}
 state_code_map = {
     "Alabama": "AL",
@@ -265,6 +278,8 @@ for i,j in zip(indicators,color_scales):
     )
     fig.show()
 ```
+
+**Observations:** In these 3 graphs we see similar trends to what was observed in the line graph, however, we are better able to visualize the changes among US states/regions here. Notably, while most of the US follows the similar trends over time of increased and then subsequently decreased rates of depression and anxiety, the midwest appears to be less impacted by these trends. Also notable is that states that border each other definitely seem to get darker and lighter at the same time, meaning that rates appear to increase and decrease regionally, even if states in other regions aren't changing much in a specific time period.
 
 
 # Linear Modeling
