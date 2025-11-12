@@ -284,7 +284,6 @@ for i,j in zip(indicators,color_scales):
 
 # Linear Modeling
 
-
 ```{python}
 def give_me_one_period(df, time_period):
     trimmed_df = df[df['Time Period'] == time_period]
