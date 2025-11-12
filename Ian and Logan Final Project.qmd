@@ -27,6 +27,11 @@ df = pd.read_csv("./Datasets/Indicators_of_Anxiety_or_Depression_Based_on_Report
 df.head()
 ```
 
+Rename the "Value" column to "Percent" to more accurately portray what the data is measuring
+```{python}
+df.rename(columns={"Value": "Percent of Population"}, inplace = True)
+```
+
 Filter to only state data and drop unnecessary columns;Group and Subgroup are redundant, Time period and CI are just combinations of other column's data.
 ```{python}
 state_data = df[df['Group']=='By State']
@@ -38,7 +43,6 @@ Seperate Quartile Range into 2 Columns:
 ```{python}
 state_data[['Quartile_Lower', 'Quartile_Upper']] = state_data['Quartile Range'].str.split(' - ', expand=True)
 state_data.drop(columns='Quartile Range')
-
 ```
 
 Clean up the Phase column:
@@ -64,28 +68,28 @@ state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End 
 Looking at some graphs
 ```{python}
 # Histogram of values for all states
-plt1 = sns.histplot(state_data, x='Value', hue = 'Indicator', alpha = 0.5)
-plt.title('Histogram of Value by Indicator')
+plt1 = sns.histplot(state_data, x='Percent of Population', hue = 'Indicator', alpha = 0.5)
+plt.title('Histogram of Percent of Population by Indicator')
 plt.show()
 ```
 
 ```{python}
 # Pair Plot
-pair_plot = sns.pairplot(state_data[['Indicator','Value','Time Period']], hue = 'Indicator')
+pair_plot = sns.pairplot(state_data, hue = 'Indicator')
 plt.show()
 ```
 
 ```{python}
 national_avgs = state_data.groupby(['Time Period Start Date', 'Indicator'], observed=False).agg(
-    nat_means = ('Value', 'mean')
+    nat_means = ('Percent of Population', 'mean')
 )
 nat_avg_plt = sns.lineplot(national_avgs,
                             x='Time Period Start Date',
                             y='nat_means',
                             hue = 'Indicator')
 plt.xticks(rotation=45)
-plt.title(f"Values Over Time")
-plt.ylabel('Values')
+plt.title(f"Percent of Population Over Time")
+plt.ylabel('Percent of Population')
 plt.show()
 
 ```
@@ -159,14 +163,14 @@ for i,j in zip(indicators,color_scales):
 
     fig_data['State_Code'] = fig_data['State'].map(state_code_map)
 
-    max = fig_data['Value'].max()
-    min = fig_data['Value'].min()
+    max = fig_data['Percent of Population'].max()
+    min = fig_data['Percent of Population'].min()
 
     fig = px.choropleth(
         fig_data,
         locations='State_Code',
         locationmode='USA-states',
-        color='Value',
+        color='Percent of Population',
         scope='usa',
         title=f'Map of {i} in US states',
         hover_name='State',
