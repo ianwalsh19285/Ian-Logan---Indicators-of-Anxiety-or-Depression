@@ -197,5 +197,40 @@ def give_me_one_period(df, time_period):
 ```
 
 ```{python}
+def model_eval(df, x_col, y_col):
+    x_reshaped = df[x_col].values.reshape(-1,1)
+    model = LinearRegression().fit(x_reshaped, df[y_col])
 
+    print('model intercept :', model.intercept_.round(3))
+    print('model coefficients : ', model.coef_.round(3))
+    print('R-Squared: ', model.score(x_reshaped, df[y_col]))
+   
+```
+
+```{python}
+def give_me_vif(df, x1, x2):
+    only_vars = df.loc[:,[x1, x2]]
+    print(f"VIF: {variance_inflation_factor(only_vars, exog_idx=1)}")
+```
+
+Modeling the percentage of the population with symptoms of anxiety as a function of the percentage of the population with symptoms of depression from time period one
+```{python}
+period_one = give_me_one_period(state_data, 1)
+
+depression_reshaped = period_one['Perc of Pop with Symptoms of Depression'].values.reshape(-1,1)
+anxiety_data = period_one['Perc of Pop with Symptoms of Anxiety']
+
+anxiety_v_depression_model = LinearRegression().fit(depression_reshaped, anxiety_data)
+
+model_eval(period_one, 'Perc of Pop with Symptoms of Depression', 'Perc of Pop with Symptoms of Anxiety')
+```
+
+Plotting the anxiety-depression relationship
+```{python}
+anxiety_v_depression_plt = sns.lmplot(period_one, x='Perc of Pop with Symptoms of Depression', y='Perc of Pop with Symptoms of Anxiety')
+plt.show()
+
+predErrDisp_model1 = PredictionErrorDisplay(y_true=period_one['Perc of Pop with Symptoms of Anxiety'], y_pred=anxiety_v_depression_model.predict(depression_reshaped))
+predErrDisp_model1.plot()
+plt.show()
 ```
