@@ -293,9 +293,20 @@ def give_me_vif(df, x1, x2):
     print(f"VIF: {variance_inflation_factor(only_vars, exog_idx=1)}")
 ```
 
+```{python}
+def plot_my_simple_model(df, x_col, y_col, model):
+    plot = sns.lmplot(df, x = x_col, y = y_col)
+    plt.show()
+    
+    x_reshaped = df[x_col].values.reshape(-1,1)
+    predErrDisp_model1 = PredictionErrorDisplay(y_true=df[y_col], y_pred=model.predict(x_reshaped))
+    predErrDisp_model1.plot()
+    plt.show()
+```
+
 Modeling the percentage of the population with symptoms of anxiety as a function of the percentage of the population with symptoms of depression from time period one
 ```{python}
-period_one = give_me_one_period(state_data, 1)
+period_one = give_me_one_period(state_data_wide, 1)
 
 depression_reshaped = period_one['Perc of Pop with Symptoms of Depression'].values.reshape(-1,1)
 anxiety_data = period_one['Perc of Pop with Symptoms of Anxiety']
@@ -307,10 +318,28 @@ model_eval(period_one, 'Perc of Pop with Symptoms of Depression', 'Perc of Pop w
 
 Plotting the anxiety-depression relationship
 ```{python}
-anxiety_v_depression_plt = sns.lmplot(period_one, x='Perc of Pop with Symptoms of Depression', y='Perc of Pop with Symptoms of Anxiety')
-plt.show()
+plot_my_simple_model(period_one,
+                    'Perc of Pop with Symptoms of Depression',
+                    'Perc of Pop with Symptoms of Anxiety',
+                    anxiety_v_depression_model
+                    )
+```
 
-predErrDisp_model1 = PredictionErrorDisplay(y_true=period_one['Perc of Pop with Symptoms of Anxiety'], y_pred=anxiety_v_depression_model.predict(depression_reshaped))
-predErrDisp_model1.plot()
-plt.show()
+
+```{python}
+depression_reshaped = state_data_wide['Perc of Pop with Symptoms of Depression'].values.reshape(-1,1)
+time_data = state_data_wide['Time Period']
+
+depression_v_time_model = LinearRegression().fit(depression_reshaped, time_data)
+
+model_eval(state_data_wide, 'Perc of Pop with Symptoms of Depression', 'Time Period')
+```
+
+
+```{python}
+plot_my_simple_model(state_data_wide,
+                    'Perc of Pop with Symptoms of Depression',
+                    'Time Period',
+                    depression_v_time_model
+                    )
 ```
