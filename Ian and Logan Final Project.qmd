@@ -52,8 +52,8 @@ state_data['Indicator'] = pd.Categorical(state_data['Indicator'], categories = [
 
 state_data['Phase'] = pd.Categorical(state_data['Phase'], categories=['1', '2', '3', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10'])
 
-state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date'])
-state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date'])
+state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date']).dt.date
+state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date']).dt.date
 ```
 
 # EDA 
@@ -61,29 +61,14 @@ state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End 
 Looking at some graphs
 ```{python}
 # Histogram of values for all states
-plt1 = sns.histplot(state_data, x='Value')
+plt1 = sns.histplot(state_data, x='Value', hue = 'Indicator', alpha = 0.5)
+plt.title('Histogram of Value by Indicator')
 plt.show()
 ```
 
 ```{python}
 # Pair Plot
-pair_plot = sns.pairplot(state_data)
-plt.show()
-```
-
-```{python}
-oregon = state_data[state_data['State']=='Oregon']
-oregon_depression = oregon[oregon['Indicator']=='Symptoms of Depressive Disorder']
-
-O_dprs_ovr_tm = sns.lineplot(oregon_depression, x='Time Period End Date', y='Value')
-plt.show()
-```
-
-```{python}
-Wisconsin = state_data[state_data['State']=='Wisconsin']
-Wisconsin_depression = Wisconsin[Wisconsin['Indicator']=='Symptoms of Depressive Disorder']
-
-W_dprs_ovr_tm = sns.lineplot(Wisconsin_depression, x='Time Period End Date', y='Value')
+pair_plot = sns.pairplot(state_data[['Indicator','Value','Time Period']], hue = 'Indicator')
 plt.show()
 ```
 
@@ -164,7 +149,6 @@ state_code_map = {
     "Virgin Islands, U.S.": "VI",
 }
 
-indicators = ['Symptoms of Depressive Disorder', 'Symptoms of Anxiety Disorder', 'Symptoms of Anxiety Disorder or Depressive Disorder']
 color_scales = ['blues','amp','purp']
 
 for i,j in zip(indicators,color_scales):
