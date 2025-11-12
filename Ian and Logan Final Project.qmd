@@ -191,5 +191,11 @@ for i,j in zip(indicators,color_scales):
 
 
 ```{python}
+def give_me_one_period(df, time_period):
+    trimmed_df = df[df['Time Period'] == time_period]
+    return trimmed_df
+```
+
+```{python}
 
 ```
