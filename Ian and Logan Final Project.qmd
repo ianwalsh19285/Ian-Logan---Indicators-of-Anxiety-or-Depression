@@ -1,5 +1,5 @@
 ---
-title: "How Anxiety/Depression levels differed between states and regions following COVID-19"
+title: "How Anxiety/Depression Levels Differed Between States and Regions Following COVID-19"
 date: last-modified
 author: "Ian Walsh & Logan Rosell"
 format: 
@@ -9,6 +9,8 @@ jupyter: python3
 ---
 
 ```{python}
+#| echo: false
+#| include: false
 # Load libraries
 import numpy as np
 import pandas as pd
@@ -35,6 +37,29 @@ state_data_wide = pd.read_csv("state_data_wide.csv")
 # Methods
 
 # Results
+
+```{python}
+#| echo: false
+min = state_data['Percent of Population'].min()
+max = state_data['Percent of Population'].max()
+
+fig = px.choropleth(
+    state_data,
+    locations='State Code',
+    locationmode='USA-states',
+    color='Percent of Population',
+    facet_row='Symptoms Of',
+    scope='usa',
+    title='Map of Anxiety and Depression in US States Over Time',
+    hover_name='State',
+    color_continuous_scale='amp',
+    animation_frame='Time Period Start Date',
+    range_color=[min,max],
+    height = 700
+)
+fig.show()
+```
+
 
 # Conclusion
 
