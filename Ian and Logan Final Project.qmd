@@ -43,6 +43,7 @@ state_data_wide['Region'] = state_data_wide['Region']
 
 # Results
 
+## Line Graph
 ```{python}
 format = '%b %d %Y'
 federal_election = datetime.datetime.strptime('Nov 3 2020', format)
@@ -91,6 +92,7 @@ plt.legend(title='Key',
 plt.show()
 ```
 
+## Map Graph
 ```{python}
 #| echo: false
 min = state_data['Percent of Population'].min()
@@ -128,6 +130,26 @@ print('model intercept :', symptoms_over_time_by_region.intercept_.round(3))
 print('model coefficients : ', symptoms_over_time_by_region.coef_.round(3))
 print('R-Squared: ', symptoms_over_time_by_region.score(x_data, y_data))
 ```
+## Regression
+
+### Checks for LINE
+
+```{python}
+# Linearity Check
+from sklearn.metrics import PredictionErrorDisplay
+
+# Region
+display = PredictionErrorDisplay(y_true = state_data_wide['Perc of Pop with Symptoms of Either'], y_pred = disadvan_predict)
+display.plot()
+plt.show()
+
+# Time
+display = PredictionErrorDisplay(y_true = df['average_sat_math'], y_pred = size_predict)
+display.plot()
+plt.show()
+```
+
+### Regression Graph
 
 # Conclusion
 
