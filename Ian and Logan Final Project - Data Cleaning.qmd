@@ -132,7 +132,8 @@ state_data.rename(columns={"Value": "Percent of Population"}, inplace = True)
 ## Export Dataset
 
 ```{python}
-
+state_data.to_csv('state_data.csv', index = False)
+state_data_wide.to_csv('state_data_wide.csv', index = False)
 ```
 
 # EDA 
