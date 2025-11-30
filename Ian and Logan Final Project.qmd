@@ -118,6 +118,21 @@ fig.show()
 
 ### Checks for LINE
 
+```{python}
+# Linearity Check
+from sklearn.metrics import PredictionErrorDisplay
+
+# Region
+display = PredictionErrorDisplay(y_true = state_data_wide['Perc of Pop with Symptoms of Either'], y_pred = disadvan_predict)
+display.plot()
+plt.show()
+
+# Time
+display = PredictionErrorDisplay(y_true = df['average_sat_math'], y_pred = size_predict)
+display.plot()
+plt.show()
+```
+
 ### Regression Graph
 
 # Conclusion

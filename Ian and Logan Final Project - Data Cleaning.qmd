@@ -201,6 +201,11 @@ state_data['State Code'] = state_data['State'].map(state_code_map)
 state_data['Symptoms Of'] = state_data['Indicator'].map(indicator_abbreviation_map)
 ```
 
+```{python}
+# Encoding dummy variables
+state_data_wide = pd.get_dummies(state_data_wide, columns=['Region'], drop_first=True)
+```
+
 ## Export Dataset
 
 ```{python}
