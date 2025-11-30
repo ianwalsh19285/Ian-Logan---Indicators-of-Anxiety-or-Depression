@@ -30,6 +30,7 @@ state_data_wide = pd.read_csv("state_data_wide.csv")
 # Reforming to date-time because CSV does not retain formatting
 state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date']).dt.date
 state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date']).dt.date
+state_data_wide['Region'] = state_data_wide['Region']
 ```
 
 # Introduction
@@ -114,6 +115,21 @@ fig = px.choropleth(
 fig.show()
 ```
 
+```{python}
+x_data = state_data_wide[['Time Period',
+        'Region_South',
+        'Region_West',
+        'Region_Northeast']].values
+y_data = state_data_wide[['Perc of Pop with Symptoms of Either']]
+
+symptoms_over_time_by_region = LinearRegression().fit(x_data,y_data)
+score = symptoms_over_time_by_region.score(x_data, y_data)
+predict = symptoms_over_time_by_region.predict(x_data)
+
+print('model intercept :', symptoms_over_time_by_region.intercept_.round(3))
+print('model coefficients : ', symptoms_over_time_by_region.coef_.round(3))
+print('R-Squared: ', symptoms_over_time_by_region.score(x_data, y_data))
+```
 ## Regression
 
 ### Checks for LINE
