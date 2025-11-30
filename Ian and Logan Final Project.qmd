@@ -42,6 +42,7 @@ state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End 
 
 # Results
 
+## Line Graph
 ```{python}
 format = '%b %d %Y'
 federal_election = datetime.datetime.strptime('Nov 3 2020', format)
@@ -90,6 +91,7 @@ plt.legend(title='Key',
 plt.show()
 ```
 
+## Map Graph
 ```{python}
 #| echo: false
 min = state_data['Percent of Population'].min()
@@ -112,6 +114,11 @@ fig = px.choropleth(
 fig.show()
 ```
 
+## Regression
+
+### Checks for Normality
+
+### Regression Graph
 
 # Conclusion
 
