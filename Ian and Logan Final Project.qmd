@@ -20,10 +20,14 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import PredictionErrorDisplay
 from scipy.stats import probplot
 from statsmodels.stats.outliers_influence import variance_inflation_factor
+import datetime
 
 # Import datasets
 state_data = pd.read_csv("state_data.csv")
 state_data_wide = pd.read_csv("state_data_wide.csv")
+# Reforming to date-time because CSV does not retain formatting
+state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date']).dt.date
+state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date']).dt.date
 ```
 
 # Introduction
@@ -36,7 +40,58 @@ state_data_wide = pd.read_csv("state_data_wide.csv")
 
 # Results
 
+```{python}
+format = '%b %d %Y'
+federal_election = datetime.datetime.strptime('Nov 3 2020', format)
+floyd_protests = datetime.datetime.strptime('May 25 2020', format)
+covid_vaccine = datetime.datetime.strptime('Dec 11 2020', format)
+roe_v_wade_overturned = datetime.datetime.strptime('Jun 24 2022', format)
+us_mid_terms = datetime.datetime.strptime('Nov 8 2022', format)
+covid_over = datetime.datetime.strptime('May 11 2023', format)
+national_avgs = state_data.groupby(['Time Period Start Date', 'Indicator'], observed=False).agg(
+    nat_means = ('Percent of Population', 'mean')
+)
+nat_avg_plt = sns.lineplot(national_avgs,
+                            x='Time Period Start Date',
+                            y='nat_means',
+                            hue = 'Indicator')
+plt.axvline(floyd_protests,
+    color='purple',
+    label='George Floyd Protests',
+    linestyle='--',)
+plt.axvline(federal_election,
+    color='red',
+    label='Federal Election',
+    linestyle='-.',)
+plt.axvline(covid_vaccine,
+    color='black',
+    label='Covid-19 Vaccine Approved',
+    linestyle=':',)
+plt.axvline(roe_v_wade_overturned,
+    color='blue',
+    label='Roe V. Wade is Overturned',
+    linestyle='--',)
+plt.axvline(us_mid_terms,
+    color='#06754cff',
+    label='Midterm Elections',
+    linestyle='-.',)
+plt.axvline(covid_over,
+    color='orange',
+    label='Covid-19 Public Health Emergency Over',
+    linestyle=':',)
+plt.xticks(rotation=45)
+plt.title(f"Percent of Population Over Time")
+plt.ylabel('Percent of Population')
+plt.legend(title='Key',
+    loc='right',
+    bbox_to_anchor=(1.9, 0.5))
+plt.show()
+```
+
 # Conclusion
 
 # References
 
+https://www.bbc.com/news/world-us-canada-52905408 (George Floyd Protest Timeline)
+https://time.com/5920134/first-authorized-covid-19-vaccine-us/ (First Covid-19 Vaccine Approved)
+https://archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html (end of Covid emergency)
