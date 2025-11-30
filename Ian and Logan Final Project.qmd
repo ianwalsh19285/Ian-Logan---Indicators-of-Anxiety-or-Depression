@@ -90,6 +90,7 @@ plt.legend(title='Key',
 plt.show()
 ```
 
+```{python}
 #| echo: false
 min = state_data['Percent of Population'].min()
 max = state_data['Percent of Population'].max()
