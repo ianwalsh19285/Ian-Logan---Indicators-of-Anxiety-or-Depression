@@ -116,7 +116,7 @@ fig.show()
 
 ## Regression
 
-### Checks for Normality
+### Checks for LINE
 
 ### Regression Graph
 
