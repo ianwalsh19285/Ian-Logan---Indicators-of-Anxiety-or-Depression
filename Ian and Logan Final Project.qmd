@@ -30,7 +30,7 @@ state_data_wide = pd.read_csv("state_data_wide.csv")
 # Reforming to date-time because CSV does not retain formatting
 state_data['Time Period Start Date'] = pd.to_datetime(state_data['Time Period Start Date']).dt.date
 state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End Date']).dt.date
-state_data_wide['Region'] = state_data_wide['Region']
+
 ```
 
 # Introduction
