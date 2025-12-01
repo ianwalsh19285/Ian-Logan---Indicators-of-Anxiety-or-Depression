@@ -85,7 +85,59 @@ plt.axvline(covid_over,
     label='Covid-19 Public Health Emergency Over',
     linestyle=':',)
 plt.xticks(rotation=45)
-plt.title(f"Percent of Population Over Time")
+plt.title(f"Percent of Pop with Anxiety or Depression Over Time")
+plt.ylabel('Percent of Population')
+plt.legend(title='Key',
+    loc='right',
+    bbox_to_anchor=(1.9, 0.5))
+plt.show()
+```
+
+```{python}
+#| echo: false
+format = '%b %d %Y'
+peak_1 = datetime.datetime.strptime('Nov 3 2020', format)
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+trough = datetime.datetime.strptime('May 26 2021', format)
+peak_2 = datetime.datetime.strptime('Sep 14 2022', format)
+=======
+trough = datetime.datetime.strptime('May 20 2021', format)
+peak_2 = datetime.datetime.strptime('Sep 10 2022', format)
+>>>>>>> Stashed changes
+=======
+trough = datetime.datetime.strptime('May 20 2021', format)
+peak_2 = datetime.datetime.strptime('Sep 10 2022', format)
+>>>>>>> Stashed changes
+=======
+trough = datetime.datetime.strptime('May 20 2021', format)
+peak_2 = datetime.datetime.strptime('Sep 10 2022', format)
+>>>>>>> Stashed changes
+national_avgs = state_data.groupby(['Time Period Start Date', 'Indicator'], observed=False).agg(
+    nat_means = ('Percent of Population', 'mean')
+)
+nat_avg_plt = sns.lineplot(national_avgs,
+                            x='Time Period Start Date',
+                            y='nat_means',
+                            hue = 'Indicator')
+nat_avg_plt.lines[0].set_linestyle("-")
+nat_avg_plt.lines[1].set_linestyle("-")
+nat_avg_plt.lines[2].set_linestyle("-")
+plt.axvline(peak_1,
+    color='black',
+    label='Peak One',
+    linestyle=':',)
+plt.axvline(trough,
+    color='black',
+    label='Trough',
+    linestyle=':',)
+plt.axvline(peak_2,
+    color='black',
+    label='Peak Two',
+    linestyle=':',)
+plt.xticks(rotation=45)
+plt.title(f"Percent of Pop with Anxiety or Depression Over Time")
 plt.ylabel('Percent of Population')
 plt.legend(title='Key',
     loc='right',
@@ -186,6 +238,19 @@ for i, col in enumerate(X.columns):
     print(col, "VIF =", round(vif, 3))
 ``` 
 
+### Differences between regions over time
+
+```{python}
+#| echo: false
+regional_diff = sns.lineplot(state_data[state_data["Indicator"] == "Symptoms of Anxiety Disorder or Depressive Disorder"],
+    x="Time Period Start Date",
+    y="Percent of Population",
+    hue="Region",
+    errorbar=None)
+regional_diff.set(title="Combined Symptoms Over Time by Region")
+plt.xticks(rotation=45)
+plt.show()
+```
 
 
 # Conclusion
@@ -193,8 +258,21 @@ for i, col in enumerate(X.columns):
 # References
 
 * https://www.bbc.com/news/world-us-canada-52905408 (George Floyd Protest Timeline)
+
 * https://time.com/5920134/first-authorized-covid-19-vaccine-us/ (First Covid-19 Vaccine Approved)
+
+https://www.npr.org/2022/06/24/1102305878/supreme-court-abortion-roe-v-wade-decision-overturn (Roe V. Wade Overturned)
+
 * https://archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html (end of Covid emergency)
+
+https://www.bc.edu/bc-web/bcnews/campus-community/faculty/anxiety-and-stress-spike-during-pandemic.html (Background article on mental health during covid)
+
+https://www.cdc.gov/mmwr/volumes/70/wr/mm7013e2.htm (CDC methods for data gathering)
+
+https://pmc.ncbi.nlm.nih.gov/articles/PMC10654137/ (Study on College aged adults immediate before and after the 2020 election)
+
+https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf (Census definitions of regions)
+
 * https://www.cheapism.com/coronavirus-restrictions/ (Difference in lockdowns between states)
 * https://www.cdc.gov/nchs/state-stats/deaths/covid19.html (COVID mortality rates per state)
 * https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf (Census Regions and Divisions of the United States)
