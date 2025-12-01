@@ -45,6 +45,7 @@ state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End 
 
 ## Line Graph
 ```{python}
+#| echo: false
 format = '%b %d %Y'
 federal_election = datetime.datetime.strptime('Nov 3 2020', format)
 floyd_protests = datetime.datetime.strptime('May 25 2020', format)
@@ -118,6 +119,7 @@ fig.show()
 ## Regression
 
 ```{python}
+#| echo: false
 x_data = state_data_wide[['Time Period',
         'Region_South',
         'Region_West',
@@ -136,15 +138,42 @@ print('R-Squared: ', symptoms_over_time_by_region.score(x_data, y_data))
 ### Checks for LINE
 
 ```{python}
-# Linearity Check
-from sklearn.metrics import PredictionErrorDisplay
-
+#| echo: false
 display = PredictionErrorDisplay(y_true = y_data, y_pred = predict)
 display.plot()
 plt.show()
+
+# Does not meet criteria for linearity or equal variance (L, E)
 ```
 
-### Regression Graph
+```{python}
+#| echo: false
+residuals = y_data - predict
+residuals = np.ravel(residuals)
+
+probplot(residuals, dist = 'norm', plot = plt)
+plt.show()
+
+# Data looks fairly normally distributed (N)
+```
+
+```{python}
+#| echo: false
+X = state_data_wide[['Time Period',
+    'Region_South',
+    'Region_West',
+    'Region_Northeast']].copy()
+
+X = X.astype(float)
+
+X.insert(0, 'const', 1.0)
+
+X_array = X.values
+
+for i, col in enumerate(X.columns):
+    vif = variance_inflation_factor(X_array, exog_idx=i)
+    print(col, "VIF =", round(vif, 3))
+```
 
 ```{python}
 linaer_plot = sns.lmplot(state_data_wide,
