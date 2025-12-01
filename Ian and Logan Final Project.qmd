@@ -146,6 +146,15 @@ plt.show()
 
 ### Regression Graph
 
+```{python}
+linaer_plot = sns.lmplot(state_data_wide,
+    x='Time Period',
+    y='Perc of Pop with Symptoms of Either',
+    col= "Region",
+    col_wrap = 2)
+plt.show()
+```
+
 # Conclusion
 
 # References
