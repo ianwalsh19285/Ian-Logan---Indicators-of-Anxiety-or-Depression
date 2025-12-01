@@ -97,23 +97,8 @@ plt.show()
 #| echo: false
 format = '%b %d %Y'
 peak_1 = datetime.datetime.strptime('Nov 3 2020', format)
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 trough = datetime.datetime.strptime('May 26 2021', format)
 peak_2 = datetime.datetime.strptime('Sep 14 2022', format)
-=======
-trough = datetime.datetime.strptime('May 20 2021', format)
-peak_2 = datetime.datetime.strptime('Sep 10 2022', format)
->>>>>>> Stashed changes
-=======
-trough = datetime.datetime.strptime('May 20 2021', format)
-peak_2 = datetime.datetime.strptime('Sep 10 2022', format)
->>>>>>> Stashed changes
-=======
-trough = datetime.datetime.strptime('May 20 2021', format)
-peak_2 = datetime.datetime.strptime('Sep 10 2022', format)
->>>>>>> Stashed changes
 national_avgs = state_data.groupby(['Time Period Start Date', 'Indicator'], observed=False).agg(
     nat_means = ('Percent of Population', 'mean')
 )
