@@ -180,9 +180,11 @@ X.insert(0, 'const', 1.0)
 X_array = X.values
 
 for i, col in enumerate(X.columns):
+    if i == 0:
+        continue
     vif = variance_inflation_factor(X_array, exog_idx=i)
     print(col, "VIF =", round(vif, 3))
-```
+``` 
 
 
 
@@ -190,6 +192,9 @@ for i, col in enumerate(X.columns):
 
 # References
 
-https://www.bbc.com/news/world-us-canada-52905408 (George Floyd Protest Timeline)
-https://time.com/5920134/first-authorized-covid-19-vaccine-us/ (First Covid-19 Vaccine Approved)
-https://archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html (end of Covid emergency)
+* https://www.bbc.com/news/world-us-canada-52905408 (George Floyd Protest Timeline)
+* https://time.com/5920134/first-authorized-covid-19-vaccine-us/ (First Covid-19 Vaccine Approved)
+* https://archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html (end of Covid emergency)
+* https://www.cheapism.com/coronavirus-restrictions/ (Difference in lockdowns between states)
+* https://www.cdc.gov/nchs/state-stats/deaths/covid19.html (COVID mortality rates per state)
+* https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf (Census Regions and Divisions of the United States)
