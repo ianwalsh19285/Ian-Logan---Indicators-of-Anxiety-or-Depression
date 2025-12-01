@@ -135,6 +135,15 @@ print('model coefficients : ', symptoms_over_time_by_region.coef_.round(3))
 print('R-Squared: ', symptoms_over_time_by_region.score(x_data, y_data))
 ```
 
+```{python}
+linear_plot = sns.lmplot(state_data_wide,
+    x='Time Period',
+    y='Perc of Pop with Symptoms of Either',
+    col= "Region",
+    col_wrap = 2)
+plt.show()
+```
+
 ### Checks for LINE
 
 ```{python}
@@ -175,14 +184,7 @@ for i, col in enumerate(X.columns):
     print(col, "VIF =", round(vif, 3))
 ```
 
-```{python}
-linaer_plot = sns.lmplot(state_data_wide,
-    x='Time Period',
-    y='Perc of Pop with Symptoms of Either',
-    col= "Region",
-    col_wrap = 2)
-plt.show()
-```
+
 
 # Conclusion
 
