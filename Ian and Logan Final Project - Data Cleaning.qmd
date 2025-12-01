@@ -203,7 +203,8 @@ state_data['Symptoms Of'] = state_data['Indicator'].map(indicator_abbreviation_m
 
 ```{python}
 # Encoding dummy variables
-state_data_wide = pd.get_dummies(state_data_wide, columns=['Region'], drop_first=True)
+dummies = pd.get_dummies(state_data_wide, columns=['Region'], drop_first=True)
+state_data_wide = pd.concat([state_data_wide, dummies], axis = 1)
 ```
 
 ## Export Dataset
