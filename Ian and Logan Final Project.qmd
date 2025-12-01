@@ -184,6 +184,8 @@ for i, col in enumerate(X.columns):
     print(col, "VIF =", round(vif, 3))
 ```
 
+### Differences between regions over time
+
 
 
 # Conclusion
@@ -191,5 +193,15 @@ for i, col in enumerate(X.columns):
 # References
 
 https://www.bbc.com/news/world-us-canada-52905408 (George Floyd Protest Timeline)
+
 https://time.com/5920134/first-authorized-covid-19-vaccine-us/ (First Covid-19 Vaccine Approved)
+
+https://www.npr.org/2022/06/24/1102305878/supreme-court-abortion-roe-v-wade-decision-overturn (Roe V. Wade Overturned)
+
 https://archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html (end of Covid emergency)
+
+https://www.bc.edu/bc-web/bcnews/campus-community/faculty/anxiety-and-stress-spike-during-pandemic.html (Background article on mental health during covid)
+
+https://www.cdc.gov/mmwr/volumes/70/wr/mm7013e2.htm (CDC methods for data gathering)
+
+https://pmc.ncbi.nlm.nih.gov/articles/PMC10654137/ (Study on College aged adults immediate before and after the 2020 election)
