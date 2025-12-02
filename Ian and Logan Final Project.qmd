@@ -33,17 +33,17 @@ state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End 
 
 ```
 
-# Introduction
+# Introduction - Ian
 
-# Background
+# Background - Logan
 
 2-3 citations in background
 
-# Methods
+# Methods - Logan 
 
-# Results
+# Results - Both
 
-## Line Graph
+## Line Graph - Logan
 ```{python}
 #| echo: false
 format = '%b %d %Y'
@@ -130,7 +130,7 @@ plt.legend(title='Key',
 plt.show()
 ```
 
-## Map Graph
+## Map Graph - Logan
 ```{python}
 #| echo: false
 min = state_data['Percent of Population'].min()
@@ -153,7 +153,7 @@ fig = px.choropleth(
 fig.show()
 ```
 
-## Regression
+## Regression - Ian
 
 ```{python}
 #| echo: false
@@ -238,8 +238,7 @@ plt.xticks(rotation=45)
 plt.show()
 ```
 
-
-# Conclusion
+# Conclusion - Ian
 
 # References
 
