@@ -173,6 +173,7 @@ print('R-Squared: ', symptoms_over_time_by_region.score(x_data, y_data))
 ```
 
 ```{python}
+#| echo: false
 linear_plot = sns.lmplot(state_data_wide,
     x='Time Period',
     y='Perc of Pop with Symptoms of Either',
@@ -242,22 +243,13 @@ plt.show()
 
 # References
 
-* https://www.bbc.com/news/world-us-canada-52905408 (George Floyd Protest Timeline)
-
-* https://time.com/5920134/first-authorized-covid-19-vaccine-us/ (First Covid-19 Vaccine Approved)
-
-https://www.npr.org/2022/06/24/1102305878/supreme-court-abortion-roe-v-wade-decision-overturn (Roe V. Wade Overturned)
-
-* https://archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html (end of Covid emergency)
-
-https://www.bc.edu/bc-web/bcnews/campus-community/faculty/anxiety-and-stress-spike-during-pandemic.html (Background article on mental health during covid)
-
-https://www.cdc.gov/mmwr/volumes/70/wr/mm7013e2.htm (CDC methods for data gathering)
-
-https://pmc.ncbi.nlm.nih.gov/articles/PMC10654137/ (Study on College aged adults immediate before and after the 2020 election)
-
-https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf (Census definitions of regions)
-
-* https://www.cheapism.com/coronavirus-restrictions/ (Difference in lockdowns between states)
-* https://www.cdc.gov/nchs/state-stats/deaths/covid19.html (COVID mortality rates per state)
-* https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf (Census Regions and Divisions of the United States)
+1. *Census Regions and Divisions of the United States*, U.S. Census Bureau, www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf. Accessed 2 Dec. 2025. 
+2. “Covid-19 Mortality.” *Centers for Disease Control and Prevention*, 20 Aug. 2025, www.cdc.gov/nchs/state-stats/deaths/covid19.html. 
+3. “End of the Federal COVID-19 Public Health Emergency (PHE) Declaration.” *Centers for Disease Control and Prevention*, 12 Sept. 2023, archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html. 
+4. “George Floyd: Timeline of Black Deaths and Protests.” *BBC News*, BBC, 22 Apr. 2021, www.bbc.com/news/world-us-canada-52905408. 
+5. Hayward, Ed. “Covid-19’s Toll on Mental Health.” *Boston College*, Apr. 2021, www.bc.edu/bc-web/bcnews/campus-community/faculty/anxiety-and-stress-spike-during-pandemic.html. 
+6. Park, Alice. “The First Authorized COVID-19 Vaccine in the U.S. Has Arrived.” *Time*, 11 Dec. 2020, time.com/5920134/first-authorized-covid-19-vaccine-us/.
+7. Suzuki, Sara et al. “Trajectories of sociopolitical stress during the 2020 United States presidential election season: Associations with psychological well-being, civic action, and social identities.” *Comprehensive psychoneuroendocrinology* vol. 16 100218. 31 Oct. 2023, doi:10.1016/j.cpnec.2023.100218 
+8. Taylor, Mia. “Which States with the Most and Fewest Coronavirus Restrictions.” *Cheapism*, 17 Sept. 2020, www.cheapism.com/coronavirus-restrictions/. 
+9. Totenberg, Nina, and Sarah McCammon. “Supreme Court Overturns Roe v. Wade, Ending Right to Abortion Upheld for Decades.” *NPR*, 24 June 2022, www.npr.org/2022/06/24/1102305878/supreme-court-abortion-roe-v-wade-decision-overturn. 
+10. Vahratian, Anjel, et al. “Symptoms of Anxiety or Depressive Disorder and Use of Mental Health Care among Adults during the COVID-19 Pandemic - United States, August 2020–February 2021.” *Centers for Disease Control and Prevention*, 2 Apr. 2021, www.cdc.gov/mmwr/volumes/70/wr/mm7013e2.htm. 
