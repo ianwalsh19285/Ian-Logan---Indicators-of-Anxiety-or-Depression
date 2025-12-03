@@ -85,11 +85,14 @@ plt.axvline(covid_over,
     label='Covid-19 Public Health Emergency Over',
     linestyle=':',)
 plt.xticks(rotation=45)
-plt.title(f"Percent of Pop with Anxiety or Depression Over Time")
+plt.title(r"$\mathbf{Figure\ 1}$: Percent of Pop with Anxiety or Depression Over Time")
 plt.ylabel('Percent of Population')
 plt.legend(title='Key',
     loc='right',
     bbox_to_anchor=(1.9, 0.5))
+
+fig = nat_avg_plt.get_figure()
+
 plt.show()
 ```
 
@@ -122,7 +125,7 @@ plt.axvline(peak_2,
     label='Peak Two',
     linestyle=':',)
 plt.xticks(rotation=45)
-plt.title(f"Percent of Pop with Anxiety or Depression Over Time")
+plt.title(r"$\mathbf{Figure\ 2}$: Percent of Pop with Anxiety or Depression Over Time")
 plt.ylabel('Percent of Population')
 plt.legend(title='Key',
     loc='right',
@@ -143,13 +146,14 @@ fig = px.choropleth(
     color='Percent of Population',
     facet_row='Symptoms Of',
     scope='usa',
-    title='Map of Anxiety and Depression in US States Over Time',
+    title= "<b>Figure 3</b>: Map of Anxiety and Depression in US States Over Time",
     hover_name='State',
     color_continuous_scale='amp',
     animation_frame='Time Period Start Date',
     range_color=[min,max],
     height = 700
 )
+
 fig.show()
 ```
 
@@ -178,7 +182,14 @@ linear_plot = sns.lmplot(state_data_wide,
     x='Time Period',
     y='Perc of Pop with Symptoms of Either',
     col= "Region",
-    col_wrap = 2)
+    col_wrap = 2,
+    line_kws={'color': 'red'})
+
+fig = linear_plot.fig
+
+fig.suptitle(r"$\mathbf{Figure\ 4}$: Regression of percent of symptoms of depression or anxiety over time, by region", fontsize=14)
+
+plt.tight_layout()
 plt.show()
 ```
 
