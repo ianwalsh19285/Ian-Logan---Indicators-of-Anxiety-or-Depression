@@ -37,9 +37,26 @@ state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End 
 
 # Background - Logan
 
-2-3 citations in background
+
+Anxiety and Depression was measured as a percentage of population exhibiting symptoms using a Patient Health Questionaire survey (Vahratian, Anjel). Surveys were sent via email very two weeks from 4/23/2020 to 9/20/2023. Four questions were included in the survey. During the past 7 days, respondents had been bothered by:
+1. Feeling nervous, anxious, or on edge?
+2. Not being able to stop or control worrying?
+3. Having little interest or pleasure in doing things?
+4. Feeling down, depressed, or hopeless?
+If a respondent answered yes to either of the first two questions for more than half of the previous 7 days they were included in the population of people exhibiting symptoms of anxiety. Likewise if an individual answered yes to either of the last two questions for more than half of the previous 7 days they were included in the population exhibiting symptoms of depression. This paper's analysis focuses primarily on the combined anxiety and depression rate which an individual would be included in by answering yes to any of the four survey questions for more than half of the previous 7 days. 
+
+Focusing on regions within the United States simultenously allows us to narrow the scope of this analysis to 4 rather than 50 disinct subgroups and allows us to investigate a proxy for cultural and policy variation--geographic differences' impact on symptom rates over time. Research suggests that an individual's political affiliation and socio-economic status influence their COVID-19 outcomes (Lurie, Nicole, and Joshua M Sharfstein). Region is associated with both political affiliation and income, thus we hypothesize it may serve as a predictor of a person's overall COVID-19 experience. Consequently, this regional difference in COVID-19 experience may predict the individual's propensity to display symptoms of anxiety and depression as the pandemic progressed.
+
+
 
 # Methods - Logan 
+
+During data cleaning we included regions sorted by US Census Definition ("Census Regions") which breaks the United States into the South, West, Northeast, and Midwest. The data provided by the CDC included observations grouped by age, sex, ethnicity, education, state, disability status, gender identity, and sexual orientation, however only state level observations were preserved in our final dataset due to the focus of this project on regional differences. 
+
+To analyze tends between major national events over the course of our dataset we will be graphing anxiety and depression scores over time and visually comparing movements in the data relative to those key points. 
+We have selected 6 key events based on the political and social impact (judged by the authors) to the entire United States. This list is far from 
+
+To gauge the relationship between anxiety and depression rates over time we will be performing a simple linear regression of the combined score as predicted by time period. 
 
 # Results - Both
 
@@ -95,6 +112,9 @@ fig = nat_avg_plt.get_figure()
 
 plt.show()
 ```
+
+
+
 
 ```{python}
 #| echo: false
@@ -258,8 +278,9 @@ plt.show()
 3. “End of the Federal COVID-19 Public Health Emergency (PHE) Declaration.” *Centers for Disease Control and Prevention*, 12 Sept. 2023, archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html. 
 4. “George Floyd: Timeline of Black Deaths and Protests.” *BBC News*, BBC, 22 Apr. 2021, www.bbc.com/news/world-us-canada-52905408. 
 5. Hayward, Ed. “Covid-19’s Toll on Mental Health.” *Boston College*, Apr. 2021, www.bc.edu/bc-web/bcnews/campus-community/faculty/anxiety-and-stress-spike-during-pandemic.html. 
-6. Park, Alice. “The First Authorized COVID-19 Vaccine in the U.S. Has Arrived.” *Time*, 11 Dec. 2020, time.com/5920134/first-authorized-covid-19-vaccine-us/.
-7. Suzuki, Sara et al. “Trajectories of sociopolitical stress during the 2020 United States presidential election season: Associations with psychological well-being, civic action, and social identities.” *Comprehensive psychoneuroendocrinology* vol. 16 100218. 31 Oct. 2023, doi:10.1016/j.cpnec.2023.100218 
-8. Taylor, Mia. “Which States with the Most and Fewest Coronavirus Restrictions.” *Cheapism*, 17 Sept. 2020, www.cheapism.com/coronavirus-restrictions/. 
-9. Totenberg, Nina, and Sarah McCammon. “Supreme Court Overturns Roe v. Wade, Ending Right to Abortion Upheld for Decades.” *NPR*, 24 June 2022, www.npr.org/2022/06/24/1102305878/supreme-court-abortion-roe-v-wade-decision-overturn. 
-10. Vahratian, Anjel, et al. “Symptoms of Anxiety or Depressive Disorder and Use of Mental Health Care among Adults during the COVID-19 Pandemic - United States, August 2020–February 2021.” *Centers for Disease Control and Prevention*, 2 Apr. 2021, www.cdc.gov/mmwr/volumes/70/wr/mm7013e2.htm. 
+6. Lurie, Nicole, and Joshua M Sharfstein. “State-to-state differences in US covid-19 outcomes: Searching for explanations.” The Lancet, vol. 401, no. 10385, 22 Apr. 2023, pp. 1314–1315, https://doi.org/10.1016/s0140-6736(23)00726-2. 
+7. Park, Alice. “The First Authorized COVID-19 Vaccine in the U.S. Has Arrived.” *Time*, 11 Dec. 2020, time.com/5920134/first-authorized-covid-19-vaccine-us/.
+8. Suzuki, Sara et al. “Trajectories of sociopolitical stress during the 2020 United States presidential election season: Associations with psychological well-being, civic action, and social identities.” *Comprehensive psychoneuroendocrinology* vol. 16 100218. 31 Oct. 2023, doi:10.1016/j.cpnec.2023.100218 
+9. Taylor, Mia. “Which States with the Most and Fewest Coronavirus Restrictions.” *Cheapism*, 17 Sept. 2020, www.cheapism.com/coronavirus-restrictions/. 
+10. Totenberg, Nina, and Sarah McCammon. “Supreme Court Overturns Roe v. Wade, Ending Right to Abortion Upheld for Decades.” *NPR*, 24 June 2022, www.npr.org/2022/06/24/1102305878/supreme-court-abortion-roe-v-wade-decision-overturn. 
+11. Vahratian, Anjel, et al. “Symptoms of Anxiety or Depressive Disorder and Use of Mental Health Care among Adults during the COVID-19 Pandemic - United States, August 2020–February 2021.” *Centers for Disease Control and Prevention*, 2 Apr. 2021, www.cdc.gov/mmwr/volumes/70/wr/mm7013e2.htm. 
