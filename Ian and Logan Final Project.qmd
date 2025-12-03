@@ -33,15 +33,17 @@ state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End 
 
 ```
 
-# Introduction - Ian
+# Introduction
 
-Shortly following the outbreak of COVID-19 in the United States, the CDC began to measure rates of self-reported symptoms of anxiety and depression in the United States from a survey that they sent out. They did this in part because "The spread of disease and increase in deaths during large outbreaks of transmissible diseases is often associated with fear and grief" (Vahratian, et al.). Rates of anxiety and depression symptoms were then estimated for various demographic and geographic groups to see how they changed throughout the course of the pandemic and in the aftermath, from 4/23/2020 to 9/20/2023. In this paper we will explore how rates of anxiety and depression changed during this time period. More specifically though, Our research question is: how did anxiety and depression levels differ between states and regions following the outbreak of COVID-19 in the United States? Our null hypothesis is thus that there was no difference between rates of depression and anxiety in different regions following COVID19, and our alternative hypothesis is that there *were* differences.
+Shortly following the outbreak of COVID-19 in the United States, the CDC began to measure rates of self-reported symptoms of anxiety and depression in the United States from a survey that they sent out. They did this in part because "The spread of disease and increase in deaths during large outbreaks of transmissible diseases is often associated with fear and grief" (Vahratian, et al.). Rates of anxiety and depression symptoms were then estimated for various demographic and geographic groups to see how they changed throughout the course of the pandemic and in the aftermath, from 4/23/2020 to 9/20/2023. In this paper we will explore how rates of anxiety and depression changed during this time period. More specifically though, Our research question is: how did anxiety and depression levels differ between states and regions following the outbreak of COVID-19 in the United States? Our null hypothesis is thus that there was no difference between rates of depression and anxiety in different regions following COVID-19, and our alternative hypothesis is that there *were* differences.
 
-We were led to look at regional differences because there are a couple of factors that could make anxiety and depression affect regions differently. For example, different parts of the United States have different demographic and cultural populations which may be more or less susceptible to mental health challenges during a crisis. One article describes how "many cultural and societal norms and beliefs impact the diagnosis and treatment of people with mental health conditions. Stigma, discrimination, racism, and stereotyping all negatively impact mental health and treatment outcomes" (Carr).
+We were led to look at regional differences because there are a couple of factors that could make anxiety and depression affect regions differently. For example, different parts of the United States have different demographic and cultural populations which may be more or less susceptible to mental health challenges during a crisis. One article describes how "many cultural and societal norms and beliefs impact the diagnosis and treatment of people with mental health conditions. Stigma, discrimination, racism, and stereotyping all negatively impact mental health and treatment outcomes" (Carr). 
 
+Another possible state-to-state difference is how they responded to the pandemic itself. Some states, such as South Dakota, shut down hardly any public spaces and had very loose mask requirments, whereas states like California were very restrictive about what people were allowed to do in public regarding health and safety measures (Taylor). The difference between these state-wide approaches to public health may have left people feeling more anxious about potentially getting sick, or may have made them more depressed about not being able to go out. Either way, we believe this could be reflected in the data.
 
-# Background - Logan
+Finally, the difference in disease rates itself between states may have had an impact on mental health. Texas, for example, had a mortality rate of 105.2 people per 100,000 population in 2020, while Washington saw a mortality rate of less than half of that at 36.7 per 100,000 population (“Covid-19 Mortality.”). In regions where more people were dying at a higher rate to COVID, there may have been more of an emotional toll on the population as a whole.
 
+# Background
 
 Anxiety and Depression was measured as a percentage of population exhibiting symptoms using a Patient Health Questionaire survey (Vahratian, Anjel). Surveys were sent via email very two weeks from 4/23/2020 to 9/20/2023. Four questions were included in the survey. During the past 7 days, respondents had been bothered by:
 1. Feeling nervous, anxious, or on edge?
@@ -52,9 +54,7 @@ If a respondent answered yes to either of the first two questions for more than 
 
 Focusing on regions within the United States simultenously allows us to narrow the scope of this analysis to 4 rather than 50 disinct subgroups and allows us to investigate a proxy for cultural and policy variation--geographic differences' impact on symptom rates over time. Research suggests that an individual's political affiliation and socio-economic status influence their COVID-19 outcomes (Lurie, Nicole, and Joshua M Sharfstein). Region is associated with both political affiliation and income, thus we hypothesize it may serve as a predictor of a person's overall COVID-19 experience. Consequently, this regional difference in COVID-19 experience may predict the individual's propensity to display symptoms of anxiety and depression as the pandemic progressed.
 
-
-
-# Methods - Logan 
+# Methods 
 
 During data cleaning we included regions sorted by US Census Definition ("Census Regions") which breaks the United States into the South, West, Northeast, and Midwest. The data provided by the CDC included observations grouped by age, sex, ethnicity, education, state, disability status, gender identity, and sexual orientation, however only state level observations were preserved in our final dataset due to the focus of this project on regional differences. 
 
@@ -63,7 +63,7 @@ We have selected 6 key events based on the political and social impact (judged b
 
 To gauge the relationship between anxiety and depression rates over time we will be performing a simple linear regression of the combined score as predicted by time period. 
 
-# Results - Both
+# Results
 
 ## Line Graph - Logan
 ```{python}
@@ -117,9 +117,6 @@ fig = nat_avg_plt.get_figure()
 
 plt.show()
 ```
-
-
-
 
 ```{python}
 #| echo: false
@@ -183,7 +180,7 @@ fig = px.choropleth(
 fig.show()
 ```
 
-## Regional Differences Line Plot
+## Regional Differences Over Time
 
 ```{python}
 #| echo: false
@@ -197,8 +194,11 @@ plt.xticks(rotation=45)
 plt.show()
 ```
 
-## Regression - Ian
+To start exploring differences in the four regions, we plotted the different rates of symptoms of either depression or anxiety over time by region (**Fig. 3**). As is apparent in the graph, certain regions are consistently higher than others throughout most of time period we looked at. Specifically, the Midwest and Northeast regions of the United States appear to consistently have lower rates of anxiety or depression, whereas the South and West have much higher rates. For example, at the highest peak in the data (around December 2020), the West had a anxiety or depression rate of over 43, but in the Midwest that rate was just over 40.
 
+## Linear Regression
+
+In order to better analyze this data, we ran a linear regression model with the percent of the population with symptoms of either depression or anxiety as our response variable, and time period and regions as our explanatory variables. For this regression, one observation was the average population with symptoms of anxiety or depression per time period per state, which left us with 3,162 total observations. Dummy variables were created for each region except for the Midwest. This means that if all other regions are 0 the of that observation is the Midwest, and thus it does not have it's own coefficient (but is instead factored into the model intercept). Our results are as follows:
 ```{python}
 #| echo: false
 x_data = state_data_wide[['Time Period',
@@ -206,8 +206,6 @@ x_data = state_data_wide[['Time Period',
         'Region_West',
         'Region_Northeast']]
 y_data = state_data_wide[['Perc of Pop with Symptoms of Either']]
-
-
 
 symptoms_over_time_by_region = LinearRegression().fit(x_data,y_data)
 score = symptoms_over_time_by_region.score(x_data, y_data)
@@ -217,7 +215,7 @@ print('Model Intercept:', round(symptoms_over_time_by_region.intercept_[0], 3))
 print('\nModel Coefficients: ')
 for name, coef in zip(x_data.columns, symptoms_over_time_by_region.coef_.flatten()):
     print(f'{name} = {coef:.3f}')
-print('\nR-Squared: ', round(symptoms_over_time_by_region.score(x_data, y_data), 3))
+print('\nModel R-Squared: ', round(symptoms_over_time_by_region.score(x_data, y_data), 3))
 ```
 
 ```{python}
@@ -237,7 +235,9 @@ plt.tight_layout()
 plt.show()
 ```
 
-### Checks for LINE
+The findings of this linear regression model are consistent with our earlier observations of the regional differences over time (**Fig. 3**). Overall, there is a downward trend for every region, but the regions had different model intercepts (**Fig. 4**). For example, the Midwest had a model intercept of 34.755, but the South had an intercept that was 3.710 higher. As is evident in our low R-Squared and the graphical representation of the data (**Fig. 4**), however, the data does not appear very linear. So, a linear regression model is likely not the best fit for this data. Below, we will explore  checks for the assumptions of a linear regression model: linearity, independent observations, normally-distributed residuals, and equal variance for all explantory variables.
+
+### Checks for Assumptions of a Linear Regression Model
 
 ```{python}
 #| echo: false
@@ -249,18 +249,23 @@ plt.show()
 # Does not meet criteria for linearity or equal variance (L, E)
 ```
 
+The residual plot can be used to measure the linearity and equal variance assumptions of a linear model. In our case, the data does not appear to have homoskedasticity, and there are clear patterns that emerge in the residuals (**Fig. 5**). Thus, it does not appear our model meets the criteria for linearity or equal variance.
+
 ```{python}
 #| echo: false
 residuals = y_data - predict
 residuals = np.ravel(residuals)
 
 probplot(residuals, dist = 'norm', plot = plt)
-plt.title(r"$\mathbf{Figure\ 6}$: QQ Plot of Linear Regression Model")
+plt.title(r"$\mathbf{Figure\ 6}$: Q-Q Plot of Linear Regression Model")
 plt.show()
 
 # Data looks fairly normally distributed (N)
 ```
 
+We also generated a Q-Q plot to analyze the distribution of the residuals in our model. For this test, it does appear that our residuals are fairly normally distributed, with only slight deviations on the ends (**Fig. 6**). So, it does appear that this model meets the criteria for normally distributed residuals. 
+
+Finally, we looked at the Variance Inflation Factor (VIF) for our explanatory variables. The results are as follows:
 ```{python}
 #| echo: false
 X = state_data_wide[['Time Period',
@@ -281,19 +286,27 @@ for i, col in enumerate(X.columns):
     print(col, "VIF =", round(vif, 3))
 ``` 
 
+Because all of our VIF values are quite low (far less than 5), there does not appear to be evidence of multicollinearity in our model.
+
 # Conclusion - Ian
+
+In conclusion, we can reject our null hypothesis that there was no difference between rates of depression and anxiety in different regions following COVID-19, and accept our alternative hypothesis that there were differences in the rates. Specifically, we found that the Midwest had the lowest rate of anxiety or depression during and immediately following the pandemic. The Northeast had relatively low rates as well, whereas the West and South regions had the highest rates, with the South being the highest overall.
+
+There were also some additional findings that we observed during our analysis. One thing that was apparent was that there was a very clear spike in anxiety and depression rates following the initial outbreak of COVID that continued throughout 2020, but that began to fall in 2021 to a relatively steady rate (with some smaller ups and downs here and there). Also, we noticed throughout the data (such as in **Fig. 1**) that anxiety rates overall tended to be much higher than depression.
+
+Some caveats to our findings include the fact that, as mentioned above, our linear regression model was simply not a great fit. In addition to not meeting the assumptions of linearity or equal variance of residuals, the model only explained about 19% of the variation in our response variable. Another caveat is that while there were some fluctuations in the data that visually appear to have been correlated with major events (**Fig. 1**), we have no conclusive evidence to support the causality of these events. Thus, we can only speculate that these events may have had an impact on the changes in rates that we saw.
 
 # References
 
 1. Carr, Naomi. “Relationship between Culture and Mental Health.” MentalHealth.Com, 14 Sept. 2023, www.mentalhealth.com/library/social-cultural-topics.
-1. *Census Regions and Divisions of the United States*, U.S. Census Bureau, www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf. Accessed 2 Dec. 2025. 
-2. “Covid-19 Mortality.” *Centers for Disease Control and Prevention*, 20 Aug. 2025, www.cdc.gov/nchs/state-stats/deaths/covid19.html. 
-3. “End of the Federal COVID-19 Public Health Emergency (PHE) Declaration.” *Centers for Disease Control and Prevention*, 12 Sept. 2023, archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html. 
-4. “George Floyd: Timeline of Black Deaths and Protests.” *BBC News*, BBC, 22 Apr. 2021, www.bbc.com/news/world-us-canada-52905408. 
-5. Hayward, Ed. “Covid-19’s Toll on Mental Health.” *Boston College*, Apr. 2021, www.bc.edu/bc-web/bcnews/campus-community/faculty/anxiety-and-stress-spike-during-pandemic.html. 
-6. Lurie, Nicole, and Joshua M Sharfstein. “State-to-state differences in US covid-19 outcomes: Searching for explanations.” The Lancet, vol. 401, no. 10385, 22 Apr. 2023, pp. 1314–1315, https://doi.org/10.1016/s0140-6736(23)00726-2. 
-7. Park, Alice. “The First Authorized COVID-19 Vaccine in the U.S. Has Arrived.” *Time*, 11 Dec. 2020, time.com/5920134/first-authorized-covid-19-vaccine-us/.
-8. Suzuki, Sara et al. “Trajectories of sociopolitical stress during the 2020 United States presidential election season: Associations with psychological well-being, civic action, and social identities.” *Comprehensive psychoneuroendocrinology* vol. 16 100218. 31 Oct. 2023, doi:10.1016/j.cpnec.2023.100218 
-9. Taylor, Mia. “Which States with the Most and Fewest Coronavirus Restrictions.” *Cheapism*, 17 Sept. 2020, www.cheapism.com/coronavirus-restrictions/. 
-10. Totenberg, Nina, and Sarah McCammon. “Supreme Court Overturns Roe v. Wade, Ending Right to Abortion Upheld for Decades.” *NPR*, 24 June 2022, www.npr.org/2022/06/24/1102305878/supreme-court-abortion-roe-v-wade-decision-overturn. 
-11. Vahratian, Anjel, et al. “Symptoms of Anxiety or Depressive Disorder and Use of Mental Health Care among Adults during the COVID-19 Pandemic - United States, August 2020–February 2021.” *Centers for Disease Control and Prevention*, 2 Apr. 2021, www.cdc.gov/mmwr/volumes/70/wr/mm7013e2.htm. 
+2. *Census Regions and Divisions of the United States*, U.S. Census Bureau, www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf. Accessed 2 Dec. 2025. 
+3. “Covid-19 Mortality.” *Centers for Disease Control and Prevention*, 20 Aug. 2025, www.cdc.gov/nchs/state-stats/deaths/covid19.html. 
+4. “End of the Federal COVID-19 Public Health Emergency (PHE) Declaration.” *Centers for Disease Control and Prevention*, 12 Sept. 2023, archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html. 
+5. “George Floyd: Timeline of Black Deaths and Protests.” *BBC News*, BBC, 22 Apr. 2021, www.bbc.com/news/world-us-canada-52905408. 
+6. Hayward, Ed. “Covid-19’s Toll on Mental Health.” *Boston College*, Apr. 2021, www.bc.edu/bc-web/bcnews/campus-community/faculty/anxiety-and-stress-spike-during-pandemic.html. 
+7. Lurie, Nicole, and Joshua M Sharfstein. “State-to-state differences in US covid-19 outcomes: Searching for explanations.” The Lancet, vol. 401, no. 10385, 22 Apr. 2023, pp. 1314–1315, https://doi.org/10.1016/s0140-6736(23)00726-2. 
+8. Park, Alice. “The First Authorized COVID-19 Vaccine in the U.S. Has Arrived.” *Time*, 11 Dec. 2020, time.com/5920134/first-authorized-covid-19-vaccine-us/.
+9. Suzuki, Sara et al. “Trajectories of sociopolitical stress during the 2020 United States presidential election season: Associations with psychological well-being, civic action, and social identities.” *Comprehensive psychoneuroendocrinology* vol. 16 100218. 31 Oct. 2023, doi:10.1016/j.cpnec.2023.100218 
+10. Taylor, Mia. “Which States with the Most and Fewest Coronavirus Restrictions.” *Cheapism*, 17 Sept. 2020, www.cheapism.com/coronavirus-restrictions/. 
+11. Totenberg, Nina, and Sarah McCammon. “Supreme Court Overturns Roe v. Wade, Ending Right to Abortion Upheld for Decades.” *NPR*, 24 June 2022, www.npr.org/2022/06/24/1102305878/supreme-court-abortion-roe-v-wade-decision-overturn. 
+12. Vahratian, Anjel, et al. “Symptoms of Anxiety or Depressive Disorder and Use of Mental Health Care among Adults during the COVID-19 Pandemic - United States, August 2020–February 2021.” *Centers for Disease Control and Prevention*, 2 Apr. 2021, www.cdc.gov/mmwr/volumes/70/wr/mm7013e2.htm. 
