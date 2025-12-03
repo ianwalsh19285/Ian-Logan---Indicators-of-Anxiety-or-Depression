@@ -35,6 +35,11 @@ state_data['Time Period End Date'] = pd.to_datetime(state_data['Time Period End 
 
 # Introduction - Ian
 
+Shortly following the outbreak of COVID-19 in the United States, the CDC began to measure rates of self-reported symptoms of anxiety and depression in the United States from a survey that they sent out. They did this in part because "The spread of disease and increase in deaths during large outbreaks of transmissible diseases is often associated with fear and grief" (Vahratian, et al.). Rates of anxiety and depression symptoms were then estimated for various demographic and geographic groups to see how they changed throughout the course of the pandemic and in the aftermath, from 4/23/2020 to 9/20/2023. In this paper we will explore how rates of anxiety and depression changed during this time period. More specifically though, Our research question is: how did anxiety and depression levels differ between states and regions following the outbreak of COVID-19 in the United States? Our null hypothesis is thus that there was no difference between rates of depression and anxiety in different regions following COVID19, and our alternative hypothesis is that there *were* differences.
+
+We were led to look at regional differences because there are a couple of factors that could make anxiety and depression affect regions differently. For example, different parts of the United States have different demographic and cultural populations which may be more or less susceptible to mental health challenges during a crisis. One article describes how "many cultural and societal norms and beliefs impact the diagnosis and treatment of people with mental health conditions. Stigma, discrimination, racism, and stereotyping all negatively impact mental health and treatment outcomes" (Carr).
+
+
 # Background - Logan
 
 2-3 citations in background
@@ -85,7 +90,7 @@ plt.axvline(covid_over,
     label='Covid-19 Public Health Emergency Over',
     linestyle=':',)
 plt.xticks(rotation=45)
-plt.title(r"$\mathbf{Figure\ 1}$: Percent of Pop with Anxiety or Depression Over Time")
+plt.title(r"$\mathbf{Figure\ 1}$: Percent of Pop with Anxiety or Depression Over Time with Major Events Included")
 plt.ylabel('Percent of Population')
 plt.legend(title='Key',
     loc='right',
@@ -98,6 +103,7 @@ plt.show()
 
 ```{python}
 #| echo: false
+#| include: false
 format = '%b %d %Y'
 peak_1 = datetime.datetime.strptime('Nov 3 2020', format)
 trough = datetime.datetime.strptime('May 26 2021', format)
@@ -125,7 +131,7 @@ plt.axvline(peak_2,
     label='Peak Two',
     linestyle=':',)
 plt.xticks(rotation=45)
-plt.title(r"$\mathbf{Figure\ 2}$: Percent of Pop with Anxiety or Depression Over Time")
+plt.title("Percent of Pop with Anxiety or Depression Over Time ")
 plt.ylabel('Percent of Population')
 plt.legend(title='Key',
     loc='right',
@@ -146,7 +152,7 @@ fig = px.choropleth(
     color='Percent of Population',
     facet_row='Symptoms Of',
     scope='usa',
-    title= "<b>Figure 3</b>: Map of Anxiety and Depression in US States Over Time",
+    title= "<b>Figure 2</b>: Map of Anxiety and Depression in US States Over Time",
     hover_name='State',
     color_continuous_scale='amp',
     animation_frame='Time Period Start Date',
@@ -157,6 +163,20 @@ fig = px.choropleth(
 fig.show()
 ```
 
+## Regional Differences Line Plot
+
+```{python}
+#| echo: false
+regional_diff = sns.lineplot(state_data[state_data["Indicator"] == "Symptoms of Anxiety Disorder or Depressive Disorder"],
+    x="Time Period Start Date",
+    y="Percent of Population",
+    hue="Region",
+    errorbar=None)
+regional_diff.set(title=r"$\mathbf{Figure\ 3}$: Combined Symptoms Over Time by Region")
+plt.xticks(rotation=45)
+plt.show()
+```
+
 ## Regression - Ian
 
 ```{python}
@@ -164,16 +184,20 @@ fig.show()
 x_data = state_data_wide[['Time Period',
         'Region_South',
         'Region_West',
-        'Region_Northeast']].values
+        'Region_Northeast']]
 y_data = state_data_wide[['Perc of Pop with Symptoms of Either']]
+
+
 
 symptoms_over_time_by_region = LinearRegression().fit(x_data,y_data)
 score = symptoms_over_time_by_region.score(x_data, y_data)
 predict = symptoms_over_time_by_region.predict(x_data)
 
-print('model intercept :', symptoms_over_time_by_region.intercept_.round(3))
-print('model coefficients : ', symptoms_over_time_by_region.coef_.round(3))
-print('R-Squared: ', symptoms_over_time_by_region.score(x_data, y_data))
+print('Model Intercept:', round(symptoms_over_time_by_region.intercept_[0], 3))
+print('\nModel Coefficients: ')
+for name, coef in zip(x_data.columns, symptoms_over_time_by_region.coef_.flatten()):
+    print(f'{name} = {coef:.3f}')
+print('\nR-Squared: ', round(symptoms_over_time_by_region.score(x_data, y_data), 3))
 ```
 
 ```{python}
@@ -199,6 +223,7 @@ plt.show()
 #| echo: false
 display = PredictionErrorDisplay(y_true = y_data, y_pred = predict)
 display.plot()
+plt.title(r"$\mathbf{Figure\ 5}$: Residuals Plot of Linear Regression Model")
 plt.show()
 
 # Does not meet criteria for linearity or equal variance (L, E)
@@ -210,6 +235,7 @@ residuals = y_data - predict
 residuals = np.ravel(residuals)
 
 probplot(residuals, dist = 'norm', plot = plt)
+plt.title(r"$\mathbf{Figure\ 6}$: QQ Plot of Linear Regression Model")
 plt.show()
 
 # Data looks fairly normally distributed (N)
@@ -235,24 +261,11 @@ for i, col in enumerate(X.columns):
     print(col, "VIF =", round(vif, 3))
 ``` 
 
-### Differences between regions over time
-
-```{python}
-#| echo: false
-regional_diff = sns.lineplot(state_data[state_data["Indicator"] == "Symptoms of Anxiety Disorder or Depressive Disorder"],
-    x="Time Period Start Date",
-    y="Percent of Population",
-    hue="Region",
-    errorbar=None)
-regional_diff.set(title="Combined Symptoms Over Time by Region")
-plt.xticks(rotation=45)
-plt.show()
-```
-
 # Conclusion - Ian
 
 # References
 
+1. Carr, Naomi. “Relationship between Culture and Mental Health.” MentalHealth.Com, 14 Sept. 2023, www.mentalhealth.com/library/social-cultural-topics.
 1. *Census Regions and Divisions of the United States*, U.S. Census Bureau, www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf. Accessed 2 Dec. 2025. 
 2. “Covid-19 Mortality.” *Centers for Disease Control and Prevention*, 20 Aug. 2025, www.cdc.gov/nchs/state-stats/deaths/covid19.html. 
 3. “End of the Federal COVID-19 Public Health Emergency (PHE) Declaration.” *Centers for Disease Control and Prevention*, 12 Sept. 2023, archive.cdc.gov/www_cdc_gov/coronavirus/2019-ncov/your-health/end-of-phe.html. 
