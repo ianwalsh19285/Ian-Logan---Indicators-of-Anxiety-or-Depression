@@ -65,7 +65,7 @@ To gauge the relationship between anxiety and depression rates over time we will
 
 # Results
 
-## Line Graph - Logan
+## Line Graph
 ```{python}
 #| echo: false
 format = '%b %d %Y'
@@ -164,7 +164,7 @@ plt.legend(title='Key',
 plt.show()
 ```
 
-## Map Graph - Logan
+## Map Graph
 ```{python}
 #| echo: false
 min = state_data['Percent of Population'].min()
@@ -305,7 +305,7 @@ for i, col in enumerate(X.columns):
 
 Because all of our VIF values are quite low (far less than 5), there does not appear to be evidence of multicollinearity in our model.
 
-# Conclusion - Ian
+# Conclusion
 
 In conclusion, we can reject our null hypothesis that there was no difference between rates of depression and anxiety in different regions following COVID-19, and accept our alternative hypothesis that there were differences in the rates. Specifically, we found that the Midwest had the lowest rate of anxiety or depression during and immediately following the pandemic. The Northeast had relatively low rates as well, whereas the West and South regions had the highest rates, with the South being the highest overall.
 
